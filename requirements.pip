@@ -1,0 +1,4 @@
+pydevd==1.0.0
+-e git+git@github.com:pytest-dev/pytest.git@6cfe08726175471afacd4efa260b5fe673e91bee#egg=pytest
+pytest-rerunfailures==2.1.0
+pytest-xdist==1.15.0

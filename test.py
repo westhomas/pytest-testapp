@@ -1,6 +1,5 @@
 import unittest
 import pytest
-from pytest import mark
 
 
 # Tests
@@ -55,6 +54,7 @@ def main():
 
     myplugin = MyPlugin('information')
 
+    pytest.main(["test.py", "-s", '--collect-only'], plugins=[myplugin])
     pytest.main(["test.py", "-s"], plugins=[myplugin])
 
     print("Collected:", myplugin.collected)
