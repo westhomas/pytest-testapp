@@ -7,6 +7,7 @@ def test_foo(info):
     print("test_foo")
     assert True
 
+@pytest.mark.serial
 def test_bar():
     print("test_bar")
     assert True
@@ -33,31 +34,32 @@ class Baz(unittest.TestCase):
 def main():
 
 
-    class MyPlugin(object):
-        def __init__(self, data):
+    # class MyPlugin(object):
+    #     def __init__(self, data):
+    #
+    #         self.__name__ = "myplugin"
+    #         self.data = data
+    #         self.collected = set()
+    #
+    #     def pytest_xdist_node_collection_finished(self, node, ids):
+    #         self.collected.update(set(ids))
+    #
+    #     def pytest_collection_modifyitems(self, items):
+    #         for item in items:
+    #             self.collected.update({item.nodeid})
+    #
+    #     @pytest.fixture(autouse=True)
+    #     def info(self, request):
+    #         test = request.config.pluginmanager.get_plugin('myplugin')
+    #         print("fixture: ", test.data)
 
-            self.__name__ = "myplugin"
-            self.data = data
-            self.collected = set()
+    # myplugin = MyPlugin('information')
 
-        def pytest_xdist_node_collection_finished(self, node, ids):
-            self.collected.update(set(ids))
+    pytest.main(["test.py", '--collect-only', '-m', "serial"])
+    # pytest.main(["test.py", '--collect-only', '-m', 'serial'])
+    # pytest.main(["test.py", "-s"], plugins=[myplugin])
 
-        def pytest_collection_modifyitems(self, items):
-            for item in items:
-                self.collected.update({item.nodeid})
-
-        @pytest.fixture(autouse=True)
-        def info(self, request):
-            test = request.config.pluginmanager.get_plugin('myplugin')
-            print("fixture: ", test.data)
-
-    myplugin = MyPlugin('information')
-
-    pytest.main(["test.py", "-s", '--collect-only'], plugins=[myplugin])
-    pytest.main(["test.py", "-s"], plugins=[myplugin])
-
-    print("Collected:", myplugin.collected)
+    # print("Collected:", myplugin.collected)
 
 if __name__ == "__main__":
     main()
